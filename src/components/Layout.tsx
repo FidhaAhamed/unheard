@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Navigation } from './Navigation';
+import { BottomNav } from './BottomNav';
 import { Button } from './ui/button';
 import { Menu, X } from 'lucide-react';
 
@@ -41,11 +42,14 @@ export const Layout = () => {
 
         {/* Main Content */}
         <main className="flex-1 lg:ml-0">
-          <div className="p-6 lg:p-8">
+          <div className="min-h-screen bg-background pb-16 lg:pb-0">
             <Outlet />
           </div>
         </main>
       </div>
+
+      {/* Bottom Navigation for Mobile */}
+      <BottomNav />
     </div>
   );
 };
