@@ -96,9 +96,7 @@ export const Navigation = ({ onNavigate }: NavigationProps) => {
 
         {/* Main Navigation */}
         <div className="space-y-2 mb-8">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-3">
-            Main
-          </h3>
+          
           {navItems.map((item) => (
             <NavLink
               key={item.to}
