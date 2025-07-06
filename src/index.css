@@ -112,3 +112,10 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: 'Amsterdam';
+  src: url('/fonts/Amsterdam.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

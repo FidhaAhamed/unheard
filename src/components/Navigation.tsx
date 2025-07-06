@@ -41,7 +41,7 @@ export const Navigation = ({ onNavigate }: NavigationProps) => {
     {
       to: '/reels',
       icon: Camera,
-      label: 'Visual Stories',
+      label: 'Glance',
       color: 'text-community-reels'
     },
     {
@@ -77,17 +77,23 @@ export const Navigation = ({ onNavigate }: NavigationProps) => {
     <Card className="h-full rounded-none border-r border-l-0 border-t-0 border-b-0 bg-card/50 backdrop-blur-sm">
       <div className="p-6">
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <Sparkles className="h-6 w-6 text-primary-foreground" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              unheard.
-            </h1>
-            <p className="text-xs text-muted-foreground">Your Story. Your Space. Beyond Words</p>
-          </div>
-        </div>
+<div className="flex items-center gap-3 mb-8">
+  <img
+    src="/logo.png"
+    alt="Unheard Logo"
+    className="h-20 w-20 rounded-xl object-contain"
+  />
+  <div>
+    <h1
+      className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+      style={{ fontFamily: 'Amsterdam, sans-serif' }}
+    >
+      unheard.
+    </h1>
+    <p className="text-xs text-muted-foreground">Your Story. Your Space. Beyond Words</p>
+  </div>
+</div>
+
 
         {/* Main Navigation */}
         <div className="space-y-2 mb-8">
