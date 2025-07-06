@@ -85,13 +85,12 @@ export const Navigation = ({ onNavigate }: NavigationProps) => {
   />
   <div>
     <h1
-      className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-      style={{ fontFamily: 'Amsterdam, sans-serif' }}
-    >
+  className="text-xl font-bold leading-[1.8] overflow-visible bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+  style={{ fontFamily: 'Amsterdam, sans-serif', paddingTop: '2px', paddingBottom: '2px' }}
+>
       unheard.
     </h1>
-    <p className="text-xs text-muted-foreground">Your Story. Your Space. Beyond Words</p>
-  </div>
+    </div>
 </div>
 
 
