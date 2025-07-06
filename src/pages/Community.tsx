@@ -1,203 +1,258 @@
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Heart, 
-  MessageCircle, 
-  Share, 
-  Bookmark, 
-  MoreHorizontal,
-  Plus,
-  TrendingUp,
-  Hash,
-  Users
-} from 'lucide-react';
+import React, { useState } from 'react';
+import { Heart, MessageCircle, Share2, Plus, Image, Video } from 'lucide-react';
 
-const Community = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: "Sarah_Signs",
-      avatar: "S",
-      content: "Just learned the sign for 'butterfly' today! 🦋 It's so beautiful and expressive. Love how ASL captures the essence of things.",
-      image: null,
-      likes: 47,
-      comments: 12,
-      shares: 3,
-      time: "2h ago",
-      tags: ["ASL", "learning", "signs"]
+interface Post {
+  id: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  content: {
+    type: 'image' | 'video' | 'emoji-story';
+    data: string;
+    caption?: string;
+  };
+  reactions: {
+    hearts: number;
+    laughs: number;
+    wows: number;
+  };
+  comments: number;
+  timestamp: string;
+}
+
+const samplePosts: Post[] = [
+  {
+    id: '1',
+    author: {
+      name: 'Visual Artist',
+      avatar: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
     },
-    {
-      id: 2,
-      user: "DeafArtist",
-      avatar: "D",
-      content: "Check out this visual poetry I created! Each emoji tells part of the story... 🌙✨🌊💫🦋",
-      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=400&h=300&fit=crop",
-      likes: 89,
-      comments: 23,
-      shares: 8,
-      time: "4h ago",
-      tags: ["art", "poetry", "visual", "creative"]
+    content: {
+      type: 'image',
+      data: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
+      caption: '🌅✨ Morning inspiration: Every sunrise brings new possibilities for connection'
     },
-    {
-      id: 3,
-      user: "CommunityHelper",
-      avatar: "C",
-      content: "Weekly meetup this Saturday at the community center! 🏢 We'll practice fingerspelling and play visual games. All skill levels welcome! 👥",
-      image: null,
-      likes: 156,
-      comments: 34,
-      shares: 67,
-      time: "6h ago",
-      tags: ["meetup", "community", "fingerspelling", "games"]
-    }
-  ]);
+    reactions: {
+      hearts: 42,
+      laughs: 8,
+      wows: 15
+    },
+    comments: 12,
+    timestamp: '2h ago'
+  },
+  {
+    id: '2',
+    author: {
+      name: 'Community Helper',
+      avatar: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
+    },
+    content: {
+      type: 'emoji-story',
+      data: '🌟➡️🎭➡️👥➡️💫➡️🌈',
+      caption: 'My journey: From feeling different to embracing my unique way of communicating!'
+    },
+    reactions: {
+      hearts: 67,
+      laughs: 23,
+      wows: 31
+    },
+    comments: 18,
+    timestamp: '4h ago'
+  },
+  {
+    id: '3',
+    author: {
+      name: 'Game Champion',
+      avatar: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
+    },
+    content: {
+      type: 'image',
+      data: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
+      caption: '🏆🎮 Just completed the Escape Room challenge! The visual puzzles were amazing!'
+    },
+    reactions: {
+      hearts: 34,
+      laughs: 12,
+      wows: 28
+    },
+    comments: 9,
+    timestamp: '6h ago'
+  }
+];
 
-  const trendingTags = ["#ASL", "#DeafCulture", "#VisualArt", "#SignLanguage", "#Community", "#Learning"];
+export const Community: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>(samplePosts);
+  const [showCreatePost, setShowCreatePost] = useState(false);
 
-  return (
-    <div className="max-w-md mx-auto">
-      {/* Stories/Status bar */}
-      <div className="flex gap-4 p-4 overflow-x-auto">
-        <div className="flex-shrink-0 text-center">
-          <div className="w-16 h-16 rounded-full border-2 border-dashed border-primary/50 flex items-center justify-center mb-2">
-            <Plus className="h-6 w-6 text-primary" />
-          </div>
-          <span className="text-xs text-muted-foreground">Your story</span>
+  const handleReaction = (postId: string, reactionType: 'hearts' | 'laughs' | 'wows') => {
+    setPosts(posts.map(post => 
+      post.id === postId 
+        ? {
+            ...post,
+            reactions: {
+              ...post.reactions,
+              [reactionType]: post.reactions[reactionType] + 1
+            }
+          }
+        : post
+    ));
+  };
+
+  const CreatePostModal = () => (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl max-w-lg w-full p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-bold">Create New Post</h3>
+          <button
+            onClick={() => setShowCreatePost(false)}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            ✕
+          </button>
         </div>
         
-        {['Alex', 'Maria', 'Jordan', 'Casey', 'River'].map((name) => (
-          <div key={name} className="flex-shrink-0 text-center">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary via-accent to-secondary p-0.5 mb-2">
-              <div className="w-full h-full rounded-full bg-card flex items-center justify-center">
-                <span className="text-sm font-semibold">{name[0]}</span>
-              </div>
-            </div>
-            <span className="text-xs text-muted-foreground">{name}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Trending section */}
-      <Card className="mx-4 mb-4 border-0 bg-card/50">
-        <CardContent className="p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp className="h-4 w-4 text-primary" />
-            <span className="font-semibold text-sm">Trending</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {trendingTags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="text-xs hover:bg-primary/10 cursor-pointer">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Posts feed */}
-      <div className="space-y-1">
-        {posts.map((post) => (
-          <Card key={post.id} className="border-0 shadow-sm">
-            <CardContent className="p-0">
-              {/* Post header */}
-              <div className="flex items-center justify-between p-4 pb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                    <span className="text-sm font-semibold text-primary-foreground">{post.avatar}</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-sm">{post.user}</span>
-                    <div className="text-xs text-muted-foreground">{post.time}</div>
-                  </div>
-                </div>
-                <Button variant="ghost" size="sm" className="p-2">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </div>
-
-              {/* Post content */}
-              <div className="px-4 pb-3">
-                <p className="text-sm leading-relaxed mb-3">{post.content}</p>
-                
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {post.tags?.map((tag) => (
-                    <Badge key={tag} variant="outline" className="text-xs">
-                      #{tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {/* Post image */}
-              {post.image && (
-                <div className="px-4 pb-3">
-                  <img 
-                    src={post.image} 
-                    alt="Post content" 
-                    className="w-full rounded-lg object-cover max-h-64"
-                  />
-                </div>
-              )}
-
-              {/* Post stats */}
-              <div className="px-4 pb-2">
-                <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                  <span>{post.likes} likes</span>
-                  <span>{post.comments} comments</span>
-                  {post.shares > 0 && <span>{post.shares} shares</span>}
-                </div>
-              </div>
-
-              {/* Post actions */}
-              <div className="flex items-center justify-between px-4 py-3 border-t border-border/50">
-                <div className="flex items-center gap-6">
-                  <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors">
-                    <Heart className="h-5 w-5" />
-                  </button>
-                  <button className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                    <MessageCircle className="h-5 w-5" />
-                  </button>
-                  <button className="text-muted-foreground hover:text-primary transition-colors">
-                    <Share className="h-5 w-5" />
-                  </button>
-                </div>
-                <button className="text-muted-foreground hover:text-foreground transition-colors">
-                  <Bookmark className="h-5 w-5" />
-                </button>
-              </div>
-
-              {/* Add comment */}
-              <div className="px-4 pb-4 pt-2">
-                <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-secondary to-accent flex items-center justify-center">
-                    <span className="text-xs font-semibold text-primary-foreground">You</span>
-                  </div>
-                  <Input 
-                    placeholder="Add a comment..." 
-                    className="flex-1 border-0 bg-muted/30 text-sm"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Create post button */}
-      <div className="fixed bottom-20 right-4">
-        <Button 
-          size="lg" 
-          className="w-14 h-14 rounded-full shadow-lg"
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
+        <div className="space-y-4">
+          <button className="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center justify-center">
+            <Image className="mr-2" size={20} />
+            📸 Share Photo
+          </button>
+          <button className="w-full bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center">
+            <Video className="mr-2" size={20} />
+            📹 Share Video
+          </button>
+          <button className="w-full bg-purple-500 text-white py-3 rounded-xl font-semibold hover:bg-purple-600 transition-colors flex items-center justify-center">
+            😊 Create Emoji Story
+          </button>
+        </div>
       </div>
     </div>
   );
-};
 
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+            👥 <span className="text-blue-600">Community</span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-6">
+            Share your visual stories and connect with others
+          </p>
+          
+          {/* Create Post Button */}
+          <button
+            onClick={() => setShowCreatePost(true)}
+            className="bg-blue-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center mx-auto"
+          >
+            <Plus className="mr-2" size={20} />
+            ✨ Create Post
+          </button>
+        </div>
+
+        {/* Posts Feed */}
+        <div className="space-y-6">
+          {posts.map((post) => (
+            <div key={post.id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              {/* Post Header */}
+              <div className="p-6 pb-4">
+                <div className="flex items-center space-x-3">
+                  <img
+                    src={post.author.avatar}
+                    alt={post.author.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-gray-800">{post.author.name}</h3>
+                    <p className="text-gray-500 text-sm">{post.timestamp}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Post Content */}
+              <div className="px-6 pb-4">
+                {post.content.type === 'image' ? (
+                  <img
+                    src={post.content.data}
+                    alt="Post content"
+                    className="w-full h-64 object-cover rounded-xl mb-4"
+                  />
+                ) : post.content.type === 'emoji-story' ? (
+                  <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl p-6 mb-4">
+                    <div className="text-4xl text-center mb-4">{post.content.data}</div>
+                  </div>
+                ) : null}
+                
+                {post.content.caption && (
+                  <p className="text-gray-700">{post.content.caption}</p>
+                )}
+              </div>
+
+              {/* Reactions Bar */}
+              <div className="px-6 py-4 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-6">
+                    <button
+                      onClick={() => handleReaction(post.id, 'hearts')}
+                      className="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors"
+                    >
+                      <Heart size={20} />
+                      <span>{post.reactions.hearts}</span>
+                    </button>
+                    <button
+                      onClick={() => handleReaction(post.id, 'laughs')}
+                      className="flex items-center space-x-2 text-gray-600 hover:text-yellow-500 transition-colors"
+                    >
+                      <span className="text-lg">😂</span>
+                      <span>{post.reactions.laughs}</span>
+                    </button>
+                    <button
+                      onClick={() => handleReaction(post.id, 'wows')}
+                      className="flex items-center space-x-2 text-gray-600 hover:text-purple-500 transition-colors"
+                    >
+                      <span className="text-lg">🤩</span>
+                      <span>{post.reactions.wows}</span>
+                    </button>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4">
+                    <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-500 transition-colors">
+                      <MessageCircle size={20} />
+                      <span>{post.comments}</span>
+                    </button>
+                    <button className="text-gray-600 hover:text-green-500 transition-colors">
+                      <Share2 size={20} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Community Guidelines */}
+        <div className="mt-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl p-8 text-center">
+          <h3 className="text-2xl font-bold mb-4">🌟 Community Guidelines</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <div className="text-3xl mb-2">🤝</div>
+              <p className="font-semibold">Be Kind & Respectful</p>
+            </div>
+            <div>
+              <div className="text-3xl mb-2">👁️</div>
+              <p className="font-semibold">Visual Communication First</p>
+            </div>
+            <div>
+              <div className="text-3xl mb-2">🎨</div>
+              <p className="font-semibold">Express Yourself Creatively</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {showCreatePost && <CreatePostModal />}
+    </div>
+  );
+};
 export default Community;

@@ -11,15 +11,12 @@ const Index = () => {
       {/* Hero Section */}
       <div className="text-center space-y-6">
         <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary/10 text-primary border border-primary/20">
-          <Sparkles className="h-6 w-6" />
-          <span className="font-semibold text-lg">Welcome to Silent Verse</span>
+          <span className="font-semibold text-lg">Welcome to Unheard</span>
         </div>
         <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight">
-          Connect, Play, Express
+          Your Story. Your Space. Beyond Words.
         </h1>
-        <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          The inclusive entertainment platform designed for deaf and mute individuals. Experience visual games, connect with community, and express yourself freely.
-        </p>
+        
         <Button onClick={() => navigate('/games')} size="lg" className="text-lg px-8 py-6">
           <Gamepad2 className="h-5 w-5 mr-2" />
           Start Playing
