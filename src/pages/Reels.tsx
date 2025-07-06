@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +8,7 @@ import {
   Share, 
   Bookmark, 
   Play,
+  Pause,
   Volume2,
   VolumeX,
   MoreHorizontal,
@@ -18,6 +19,8 @@ import {
 const Reels = () => {
   const [activeReel, setActiveReel] = useState(0);
   const [muted, setMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRefs = useRef([]);
 
   const reels = [
     {
@@ -26,7 +29,7 @@ const Reels = () => {
       avatar: "S",
       title: "Daily Sign: 'Beautiful' ✨",
       description: "Learn this elegant sign for 'beautiful' - notice the smooth movement from the face outward 🌟",
-      thumbnail: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=300&h=400&fit=crop",
+      videoUrl: "/vids/comm2.mp4",
       likes: 234,
       comments: 45,
       shares: 12,
@@ -39,7 +42,7 @@ const Reels = () => {
       avatar: "D",
       title: "Visual Poetry in Motion 🎨",
       description: "Watch as this story unfolds through hand movements and expressions - no words needed! ✋💫",
-      thumbnail: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=300&h=400&fit=crop",
+      videoUrl: "/vids/community-meetup.mp4",
       likes: 456,
       comments: 78,
       shares: 23,
@@ -52,7 +55,7 @@ const Reels = () => {
       avatar: "C",
       title: "Community Meetup Highlights 👥",
       description: "Amazing moments from last week's gathering! So much joy and connection 🤗",
-      thumbnail: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=300&h=400&fit=crop",
+      videoUrl: "/vids/comm2.mp4",
       likes: 123,
       comments: 34,
       shares: 8,
@@ -60,6 +63,53 @@ const Reels = () => {
       tags: ["community", "meetup", "highlights", "joy"]
     }
   ];
+
+  // Handle video play/pause
+  useEffect(() => {
+    const currentVideo = videoRefs.current[activeReel];
+    if (currentVideo) {
+      if (isPlaying) {
+        currentVideo.play();
+      } else {
+        currentVideo.pause();
+      }
+    }
+  }, [isPlaying, activeReel]);
+
+  // Handle mute/unmute
+  useEffect(() => {
+    videoRefs.current.forEach((video) => {
+      if (video) {
+        video.muted = muted;
+      }
+    });
+  }, [muted]);
+
+  // Auto-play when reel changes
+  useEffect(() => {
+    // Pause all videos
+    videoRefs.current.forEach((video) => {
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+    
+    // Play current video
+    const currentVideo = videoRefs.current[activeReel];
+    if (currentVideo) {
+      setIsPlaying(true);
+      currentVideo.play();
+    }
+  }, [activeReel]);
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const isVideoFile = (url) => {
+    return url.includes('.mp4') || url.includes('.webm') || url.includes('.mov') || url.includes('sample-videos');
+  };
 
   return (
     <div className="max-w-md mx-auto relative h-screen">
@@ -75,21 +125,40 @@ const Reels = () => {
           >
             <Card className="h-full rounded-none border-0 bg-black relative overflow-hidden">
               {/* Video/Image background */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${reel.thumbnail})` }}
-              >
-                <div className="absolute inset-0 bg-black/20" />
-              </div>
+              {isVideoFile(reel.videoUrl) ? (
+                <video
+                  ref={(el) => (videoRefs.current[index] = el)}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src={reel.videoUrl}
+                  loop
+                  muted={muted}
+                  playsInline
+                  preload="metadata"
+                  onError={(e) => {
+                    console.log('Video failed to load:', e);
+                    // Fallback to placeholder
+                    const target = e.target as HTMLVideoElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              ) : (
+                <div 
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${reel.videoUrl})` }}
+                >
+                  <div className="absolute inset-0 bg-black/20" />
+                </div>
+              )}
 
-              {/* Play button overlay */}
+              {/* Play/Pause button overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <Button 
                   variant="ghost" 
                   size="lg"
                   className="w-16 h-16 rounded-full bg-black/30 text-white hover:bg-black/50 border border-white/20"
+                  onClick={togglePlayPause}
                 >
-                  <Play className="h-8 w-8 ml-1" />
+                  {isPlaying ? <Pause className="h-8 w-8" /> : <Play className="h-8 w-8 ml-1" />}
                 </Button>
               </div>
 
