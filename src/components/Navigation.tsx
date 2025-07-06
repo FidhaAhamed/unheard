@@ -83,9 +83,9 @@ export const Navigation = ({ onNavigate }: NavigationProps) => {
           </div>
           <div>
             <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Silent Verse
+              unheard.
             </h1>
-            <p className="text-xs text-muted-foreground">Connect & Play</p>
+            <p className="text-xs text-muted-foreground">Your Story. Your Space. Beyond Words</p>
           </div>
         </div>
 
