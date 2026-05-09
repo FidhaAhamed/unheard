@@ -1,73 +1,143 @@
-# Welcome to your Lovable project
+# Unheard
 
-## Project info
+Unheard is an innovative, inclusive web application designed to empower the deaf and hard-of-hearing community – and anyone passionate about visual communication. It blends social networking, gamified learning, and community engagement features, with special emphasis on accessibility and creative expression beyond spoken words.
 
-**URL**: https://lovable.dev/projects/f22c25da-3641-4f89-9688-55112ff6d04d
+---
 
-## How can I edit this code?
+## Project Overview
 
-There are several ways of editing your application.
+Unheard aims to create a safe, lively space where users can:
+- Share their stories and connect in a vibrant online community.
+- Engage with accessible games and challenges centered around visual cognition.
+- Promote awareness around deaf culture, sign language, and the nuances of non-verbal communication.
 
-**Use Lovable**
+The platform prioritizes accessibility and fun, encouraging users to celebrate their unique modes of expression, build friendships, and learn together.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f22c25da-3641-4f89-9688-55112ff6d04d) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## Features
 
-**Use your preferred IDE**
+### 📰 Social Feed
+- Post images, emoji stories, video reels, and more.
+- React (hearts, laughs, wows), comment, and share.
+- Example posts highlight accomplishments, community support, and inclusive stories.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 🗣️ Community Forum
+- Threaded discussions about daily experiences, tips, accessibility tech, and deaf culture.
+- Supports comments, reactions, and encourages inclusive dialogue.
+- Create your own posts and connect with others safely.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 🎮 Accessible Game Hub
 
-Follow these steps:
+#### Lip Reading Trainer
+- Practice reading lips via silent video challenges.
+- Hints, scoring, and level progression.
+- Designed for single or group play.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+#### Visual Escape Room
+- Solve visually-driven puzzles (symbol, pattern, or logic-based) to “escape.”
+- Multiple rooms, graduated difficulty, time tracking, and scoring.
+- Designed for quick solo play or team challenges.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+#### Visual Riddles
+- Decode emoji, patterns, and logic puzzles under time pressure.
+- Streak, scoring, difficulty levels, and various game modes.
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 📹 Reels & Stories
+- Share video reels or visual stories with the community.
+- Celebrate creativity and visual storytelling.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### 📔 Personal Journal
+- (Planned) Private space for personal reflection, notes, and achievements.
+
+---
+
+## Tech Stack
+
+- **Languages:** TypeScript (98%), CSS (1.4%)
+- **Core Frameworks:**
+  - [React](https://react.dev/) (with Hooks)
+  - [React Router](https://reactrouter.com/) (for routing)
+  - [@tanstack/react-query](https://tanstack.com/query/latest) (async state/query management)
+- **UI & Styling:**
+  - [Tailwind CSS](https://tailwindcss.com/) (utility-first styling, themed for dark mode and accessibility)
+  - Custom design tokens for color, type, gradients, and accessible contrast
+  - [Lucide Icons](https://lucide.dev/) for modern accessible icons
+- **State Management:** React built-in state, context (where used), and react-query.
+- **Build Tools:** [Vite](https://vitejs.dev/)
+- **Other:** Planned support for multiplayer game modes and expanded accessibility features
+
+---
+
+## Project Structure
+
+```
+src/
+ ├── components/      # Reusable UI components
+ ├── hooks/           # Custom React hooks
+ ├── lib/             # Utility libraries
+ ├── pages/           # Main route pages (Index, Games, Journal, Community, Reels)
+ │   └── games/       # Subpages for game types (LipReading, EscapeRoom, VisualRiddles)
+ ├── App.tsx          # Main app entrypoint (routing, providers)
+ ├── main.tsx         # React root render
+ ├── index.css        # Tailwind config, design tokens
+ └── vite-env.d.ts    # Type declarations (Vite)
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Getting Started
 
-**Use GitHub Codespaces**
+### Prerequisites
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Node.js** >= 16.x
+- **npm** or **yarn**
 
-## What technologies are used for this project?
+### Installation
 
-This project is built with:
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/FidhaAhamed/unheard.git
+   cd unheard
+   ```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+2. **Install dependencies:**
+   ```sh
+   npm install
+   # or
+   yarn install
+   ```
 
-## How can I deploy this project?
+### Running Locally
 
-Simply open [Lovable](https://lovable.dev/projects/f22c25da-3641-4f89-9688-55112ff6d04d) and click on Share -> Publish.
+```sh
+npm run dev
+# or
+yarn dev
+```
+The app will be served at `http://localhost:5173` (Vite default).
 
-## Can I connect a custom domain to my Lovable project?
+### Build for Production
 
-Yes, you can!
+```sh
+npm run build
+# or
+yarn build
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Project Relevance
+
+Unheard stands out as a resource and social hub for people who use and appreciate non-verbal communication:
+- Promotes representation and belonging in an often-overlooked digital space.
+- Encourages empathy and understanding of deaf culture through games that are fun for all ages.
+- Supports a vibrant, supportive community focused on accessibility, creativity, and mutual learning.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
